@@ -1,0 +1,228 @@
+#include <Arduino.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#include <Adafruit_I2CDevice.h>
+ 
+#define SCREEN_WIDTH 128 //largeur de l'ecran OLED en pixels
+#define SCREEN_HEIGHT 64 //hauteur de l'ecran OLED
+ 
+//Declaration de l'ecran connecte en I2C (pins SDA et SCL)
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
+ 
+void setup() {
+  Serial.begin (115200);
+ 
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)){     //msg erreur si communication ne s'initalise pas correctement
+    Serial.println(F("SSD1306 allocation failled"));
+    for (;;);
+  }
+  delay(2000);
+  display.clearDisplay();
+ 
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(SCREEN_WIDTH/4, 10);
+  // display.println("Snake Snake");
+ 
+  display.display();
+ 
+}
+ 
+ 
+void snakeToRight(){
+  int startX, startY, pixelW;
+  startX=3;                //début du rectangle en X
+  startY=SCREEN_HEIGHT-3;  //début du rectangle en Y
+  pixelW=2;                //largeur du rectangle
+
+  startX=startX+8;
+  startY=startY-28;
+
+
+  //Rectancle
+  display.drawLine (startX-8, startY-26, startX+116, startY-26, WHITE);
+  display.drawLine (startX-8, startY+6, startX+116, startY+6, WHITE);
+
+  
+  //SERPENT
+  //dos COLONNE0
+  display.drawRect(startX, startY-2, pixelW, 4, WHITE); 
+  display.drawRect(startX, startY-18, pixelW, 8, WHITE);
+  startX=startX+2;
+  
+  //COLONNE1
+  display.drawRect(startX, startY, pixelW, 4, WHITE);     
+  display.drawRect(startX, startY-20, pixelW, 12, WHITE);
+  startX=startX+2;
+ 
+  //COLONNE2
+  display.drawRect(startX, startY, pixelW, 2, WHITE);
+  display.drawRect(startX, startY-10, pixelW, 4, WHITE);
+  display.drawRect(startX, startY-16, pixelW, 2, WHITE);
+  display.drawRect(startX, startY-20, pixelW, 2, WHITE);
+  startX=startX+2;
+  
+  //COLONNE3
+  //display.drawRect(startX, startY, pixelW, 4, WHITE);
+  display.drawRect(startX, startY-8, pixelW, 4, WHITE);
+  display.drawRect(startX, startY-20, pixelW, 6, WHITE);
+  startX=startX+2;
+  
+  //COLONNE4 fin tête serpent
+  display.drawRect(startX, startY-6, pixelW, 6, WHITE);
+  display.drawRect(startX, startY-18, pixelW, 2, WHITE);
+  startX=startX+2;
+  
+  //COLONNE5 langue
+  display.drawRect(startX, startY-18, pixelW, 2, WHITE);
+  startX=startX+2;
+  
+  //COLONNE6
+  display.drawRect(startX, startY-16, pixelW, 2, WHITE);
+  display.drawRect(startX, startY-20, pixelW, 2, WHITE);
+
+  ///N
+  display.drawRect (startX, startY-10, pixelW, 10, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-6, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-4, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 10, WHITE);
+  startX=startX+2;
+  startX=startX+2;
+
+  //A
+  display.drawRect (startX, startY-10, pixelW, 10, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-4, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-4, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 10, WHITE);
+  startX=startX+2;
+  startX=startX+2;
+
+  //K
+  display.drawRect (startX, startY-10, pixelW, 10, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-6, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-8, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-4, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-2, pixelW, 2, WHITE);
+  startX=startX+2;
+  startX=startX+2;
+
+  //E
+  display.drawRect (startX, startY-10, pixelW, 10, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-6, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-2, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-6, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-2, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-6, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-2, pixelW, 2, WHITE);
+  startX=startX+2;
+  startX=startX+2;
+
+  //TIRET
+  display.drawRect (startX, startY-6, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-6, pixelW, 2, WHITE);
+  startX=startX+2;
+  startX=startX+2;
+
+  //S
+  display.drawRect (startX, startY-10, pixelW, 4, WHITE);
+  display.drawRect (startX, startY-6, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-2, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-6, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-2, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-6, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-2, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-6, pixelW, 4, WHITE);
+  display.drawRect (startX, startY-2, pixelW, 2, WHITE);
+  startX=startX+2;
+  startX=startX+2; 
+
+  ///N
+  display.drawRect (startX, startY-10, pixelW, 10, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-6, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-4, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 10, WHITE);
+  startX=startX+2;
+  startX=startX+2;
+  
+  //A
+  display.drawRect (startX, startY-10, pixelW, 10, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-4, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-4, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 10, WHITE);
+  startX=startX+2;
+  startX=startX+2;
+
+  //K
+  display.drawRect (startX, startY-10, pixelW, 10, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-6, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-8, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-4, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-2, pixelW, 2, WHITE);
+  startX=startX+2;
+  startX=startX+2;
+
+  //E
+  display.drawRect (startX, startY-10, pixelW, 10, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-6, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-2, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-6, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-2, pixelW, 2, WHITE);
+  startX=startX+2;
+  display.drawRect (startX, startY-10, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-6, pixelW, 2, WHITE);
+  display.drawRect (startX, startY-2, pixelW, 2, WHITE);
+  startX=startX+2;
+  startX=startX+2;
+  
+  display.display(); 
+}
+ 
+void snakeToLeft(){
+ 
+}
+ 
+void loop() {
+  snakeToRight();
+}
